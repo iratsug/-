@@ -1,0 +1,41 @@
+запуск
+go run ./cmd/server
+
+список товаров
+curl http://localhost:8080/product
+
+
+список ролей
+curl http://localhost:8080/role
+
+создать товары
+curl -X POST http://localhost:8080/product \
+  -H "X-Role: admin" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "name":"Футболка Oversize",
+    "type":"tshirt",
+    "gender":"unisex",
+    "size":"M",
+    "color":"black",
+    "description":"Хлопок 100%",
+    "brand":"Basic",
+    "season":"summer",
+    "price":1990
+  }'
+
+фильтр и сортировка
+curl "http://localhost:8080/product?gender=unisex&sort=price_asc&limit=10"
+
+загрузить фото
+curl -X POST http://localhost:8080/photo \
+  -H "X-Role: admin" \
+  -F "file=@./test.jpg" \
+  -F "product_id=<ID_товара>"
+
+получить фото
+curl -o photo.jpg http://localhost:8080/photo/<ID_фото>
+
+сборка бинарника
+go build -o bin/server.exe ./cmd/server
+bin\server.exe
